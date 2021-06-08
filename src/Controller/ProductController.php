@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductController extends AbstractController
 {
     /**
-     * @Route("/products", name="product")
+     * @Route("/product/all", name="product_all")
      */
     public function index(): Response
     {
@@ -24,14 +24,14 @@ class ProductController extends AbstractController
         if (!$products) {
             throw $this->createNotFoundException('No products in DB');
         }
+
         return $this->render('product/index.html.twig', [
-            'controller_name' => 'ProductController',
             'products' => $products,
         ]);
     }
 
     /**
-     * @Route("/product", name="create_product")
+     * @Route("/product/add", name="create_product")
      * @throws \Exception
      */
     public function createProduct(): Response
@@ -45,11 +45,6 @@ class ProductController extends AbstractController
         $product->setName('Mouse');
         $product->setPrice(random_int(10, 100));
         $product->setDescription('Gaming mouse');
-
-//        $errors = $validator->validate($product);
-//        if (count($errors) > 0) {
-//            return new Response((string) $errors, 400);
-//        }
 
         // tell Doctrine you want to (eventually) save the Product (no queries yet)
         $entityManager->persist($product);
@@ -76,6 +71,6 @@ class ProductController extends AbstractController
         // or render a template
         // in the template, print things with {{ product.name }}
         // return $this->render('product/show.html.twig', ['product' => $product]);
-        return new Response('Check out this great product: '.$product->getName());
+        return new Response('Product: '.$product->getName());
     }
 }
