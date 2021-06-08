@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Repository\ProductRepository;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -15,24 +16,21 @@ class ProductController extends AbstractController
     /**
      * @Route("/product/all", name="product_all")
      */
-    public function index(): Response
+    public function getAll(ProductRepository $productRepository): Response
     {
-        $products = $this->getDoctrine()
-            ->getRepository(Product::class)
-            ->findAll();
+        $products = $productRepository->findAll();
 
         if (!$products) {
-            throw $this->createNotFoundException('No products in DB');
+            throw $this->createNotFoundException('No products');
         }
 
-        return $this->render('product/index.html.twig', [
+        return $this->render('product/all.html.twig', [
             'products' => $products,
         ]);
     }
 
     /**
      * @Route("/product/add", name="create_product")
-     * @throws \Exception
      */
     public function createProduct(): Response
     {
@@ -58,11 +56,9 @@ class ProductController extends AbstractController
     /**
      * @Route("/product/{id}", name="product_show")
      */
-    public function show(int $id): Response
+    public function show(int $id, ProductRepository $productRepository): Response
     {
-        $product = $this->getDoctrine()
-            ->getRepository(Product::class)
-            ->find($id);
+        $product = $productRepository->find($id);
 
         if (!$product) {
             throw $this->createNotFoundException('No product found for id '.$id);
@@ -71,6 +67,8 @@ class ProductController extends AbstractController
         // or render a template
         // in the template, print things with {{ product.name }}
         // return $this->render('product/show.html.twig', ['product' => $product]);
-        return new Response('Product: '.$product->getName());
+        return new Response(
+            'entity => [id:'.$product->getId().', name: '.$product->getName().']'
+        );
     }
 }

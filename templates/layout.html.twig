@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+
+    {% block stylesheets %}
+{#        {{ encore_entry_link_tags('app') }}#}
+    {% endblock %}
+
+    {% block javascripts %}
+{#        {{ encore_entry_script_tags('app') }}#}
+    {% endblock %}
+</head>
+<body>
+{% block body %}
+    <h1>Links:</h1>
+    <section>
+        <a href="product/all">All</a><br>
+        <a href="product/add">Create</a><br>
+        <a href="product/11">Get (ID: 11) product</a><br>
+    </section>
+{% endblock %}
+</body>
+</html>
