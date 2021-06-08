@@ -20,12 +20,12 @@ class Product
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private ?string $name;
+    private $name;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private ?int $price;
+    private $price;
 
     /**
      * @ORM\Column(type="text")
