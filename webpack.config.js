@@ -1,5 +1,10 @@
 const Encore = require('@symfony/webpack-encore');
 
+// fetch the config, then modify it!
+// const config = Encore.getWebpackConfig();
+// config.resolve.extensions.push('json');
+// module.exports = config;
+
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
 // It's useful when you use tools that rely on webpack.config.js file.
 if (!Encore.isRuntimeEnvironmentConfigured()) {
@@ -20,7 +25,9 @@ Encore
      * Each entry will result in one JavaScript file (e.g. app.js)
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
+// const config = Encore.getWebpackConfig();
     .addEntry('app', './assets/app.js')
+    // .addEntry('app', './assets/app.css')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')
@@ -46,9 +53,9 @@ Encore
     .enableVersioning(Encore.isProduction())
     // .enableVersioning(Encore.isDev())
 
-    // .configureBabel((config) => {
-    //     config.plugins.push('@babel/plugin-proposal-class-properties');
-    // })
+    .configureBabel((config) => {
+        config.plugins.push('@babel/plugin-proposal-class-properties');
+    })
 
     // enables @babel/preset-env polyfills
     .configureBabelPresetEnv((config) => {
