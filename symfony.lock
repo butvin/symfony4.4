@@ -1,4 +1,7 @@
 {
+    "behat/transliterator": {
+        "version": "v1.3.0"
+    },
     "composer/package-versions-deprecated": {
         "version": "1.11.99.2"
     },
@@ -85,6 +88,18 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },
+    "gedmo/doctrine-extensions": {
+        "version": "v3.0.5"
+    },
+    "guzzlehttp/guzzle": {
+        "version": "6.5.5"
+    },
+    "guzzlehttp/promises": {
+        "version": "1.4.1"
+    },
+    "guzzlehttp/psr7": {
+        "version": "1.8.2"
+    },
     "laminas/laminas-code": {
         "version": "4.3.0"
     },
@@ -93,6 +108,15 @@
     },
     "laminas/laminas-zendframework-bridge": {
         "version": "1.2.0"
+    },
+    "nelexa/enum": {
+        "version": "1.1.1"
+    },
+    "nelexa/google-play-scraper": {
+        "version": "0.2.1"
+    },
+    "nelexa/http-client-simple-cache": {
+        "version": "1.1.1"
     },
     "nikic/php-parser": {
         "version": "v4.10.5"
@@ -103,8 +127,17 @@
     "psr/container": {
         "version": "1.1.1"
     },
+    "psr/http-message": {
+        "version": "1.0.1"
+    },
     "psr/log": {
         "version": "1.1.4"
+    },
+    "psr/simple-cache": {
+        "version": "1.0.1"
+    },
+    "ralouphie/getallheaders": {
+        "version": "3.0.3"
     },
     "sensio/framework-extra-bundle": {
         "version": "5.2",
