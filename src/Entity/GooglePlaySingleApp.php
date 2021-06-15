@@ -16,6 +16,8 @@ class GooglePlaySingleApp
 {
     use SoftDeleteableEntity, Timestampable;
 
+    public const DEFAULT_LANGUAGE = 'en-US';
+    public const DEFAULT_COUNTRY = 'us';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -47,12 +49,12 @@ class GooglePlaySingleApp
     /**
      * @ORM\Column(type="string", length=15, nullable=true)
      */
-    private string $language;
+    private string $language = self::DEFAULT_LANGUAGE;
 
     /**
      * @ORM\Column(type="string", length=15, nullable=true)
      */
-    private string $location;
+    private string $location = self::DEFAULT_COUNTRY;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
