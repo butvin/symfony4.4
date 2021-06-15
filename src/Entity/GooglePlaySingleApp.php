@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\GooglePlaySingleAppRepository;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Gedmo\Timestampable\Traits\Timestampable;
@@ -23,7 +24,7 @@ class GooglePlaySingleApp
     private int $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private string $storeId;
 
@@ -33,9 +34,10 @@ class GooglePlaySingleApp
     private string $name;
 
     /**
-     * @ORM\Column(type="integer", nullable=true, options={"default": 0})
+     * One Application has many ApplicationPosition s.
+     * @ORM\OneToMany(targetEntity="ApplicationPositions", mappedBy="application")
      */
-    private ?int $position = 0;
+    private $applicationPositions;
 
     /**
      * @ORM\Column(type="string", length=2047)
@@ -81,6 +83,11 @@ class GooglePlaySingleApp
      * @ORM\Column(type="integer")
      */
     private int $developerId;
+
+    public function __construct()
+    {
+        $this->applicationPositions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -219,17 +226,17 @@ class GooglePlaySingleApp
         return $this;
     }
 
-    public function getPosition(): ?int
-    {
-        return $this->position;
-    }
-
-    public function setPosition(?int $position): self
-    {
-        $this->position = $position;
-
-        return $this;
-    }
+//    public function getPosition(): ?int
+//    {
+//        return $this->position;
+//    }
+//
+//    public function setPosition(?int $position): self
+//    {
+//        $this->position = $position;
+//
+//        return $this;
+//    }
 
     public function getDeletedAt(): ?DateTime
     {
