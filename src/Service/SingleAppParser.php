@@ -17,7 +17,7 @@ class SingleAppParser
 {
     public const APP_URL = 'https://play.google.com/store/apps/details?id=com.supercell.boombeach';
 
-    protected GPlayApps $gplay;
+    protected GPlayApps $playMarket;
     protected AppId $appId;
 
     protected EntityManagerInterface $em;
@@ -27,7 +27,11 @@ class SingleAppParser
     {
         $this->em = $em;
         $this->bus = $bus;
-        $this->gplay = new GPlayApps();
+        $this->playMarket = (new GPlayApps())
+            ->setConcurrency(7)
+            ->setDefaultCountry('us')
+            ->setDefaultLocale('en_US')
+            ->setConnectTimeout(5);
         //$this->appId = new AppId();
     }
 
@@ -36,34 +40,31 @@ class SingleAppParser
         return '';
     }
 
-    private function getStoreId(string $url): ?AppId
+    private function getStoreId(string $url): AppId
     {
         $parts = parse_url($url);
 
         parse_str($parts['query'], $query);
 
         try {
-            $appId = new AppId((string)$query['id']);
-        } catch(GooglePlayException|\LogicException $e) {
-            throw new GooglePlayException($e->getMessage());
+            $appId = new AppId($query['id']);
+        } catch(\LogicException $e) {
+            throw new \LogicException($e->getMessage());
         }
 
         return $appId;
     }
 
-    /**
-     * @return Category[]
-     * @throws \Nelexa\GPlay\Exception\GooglePlayException
-     */
+
     private function getAllCategories(): array
     {
-        return $this->gplay->getCategories();
+        return $this->playMarket->getCategories();
     }
 
     public function execute(string $url): void
     {
         $appId = $this->getStoreId($url);
 
-        $this->gplay->getAppInfo($appId);
+        $this->playMarket->getAppInfo($appId);
     }
 }

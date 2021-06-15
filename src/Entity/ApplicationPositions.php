@@ -20,10 +20,9 @@ class ApplicationPositions
     private int $id;
 
     /**
-     * Many positions has One Applications.
-     * @ORM\ManyToOne(targetEntity="GooglePlaySingleApp")
+     * @ORM\ManyToOne(targetEntity=Application::class)
      */
-    private GooglePlaySingleApp $application;
+    private $application;
 
     /**
      * @ORM\Column(type="string", length=127)
@@ -31,19 +30,29 @@ class ApplicationPositions
     private $categoryId;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=false, options={"default": 0})
      */
-    private $position;
+    private int $position;
 
     /**
-     * @ORM\Column(type="string", length=15)
+     * @ORM\Column(type="integer", nullable=false, options={"default": 0})
      */
-    private $language;
+    private int $index;
 
     /**
-     * @ORM\Column(type="string", length=63)
+     * @ORM\Column(type="string", length=15, nullable=false)
      */
-    private $location;
+    private string $language;
+
+    /**
+     * @ORM\Column(type="string", length=15, nullable=false)
+     */
+    private string $location;
+
+    /**
+     * @ORM\Column(type="string", length=15, nullable=false)
+     */
+    private string $country;
 
     public function getId(): ?int
     {
@@ -94,6 +103,42 @@ class ApplicationPositions
     public function setLocation(string $location): self
     {
         $this->location = $location;
+
+        return $this;
+    }
+
+    public function getApplication()
+    {
+        return $this->application;
+    }
+
+    public function setApplication($application): self
+    {
+        $this->application = $application;
+
+        return $this;
+    }
+
+    public function getIndex(): int
+    {
+        return $this->index;
+    }
+
+    public function setIndex(int $index): self
+    {
+        $this->index = $index;
+
+        return $this;
+    }
+
+    public function getCountry(): string
+    {
+        return $this->country;
+    }
+
+    public function setCountry(string $country): self
+    {
+        $this->country = $country;
 
         return $this;
     }
