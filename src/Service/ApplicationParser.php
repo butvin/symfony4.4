@@ -59,6 +59,9 @@ class ApplicationParser
         return $this->playMarket->getCategories();
     }
 
+    /**
+     * @throws \Nelexa\GPlay\Exception\GooglePlayException
+     */
     public function execute(string $url): void
     {
         $this->playMarket
@@ -72,6 +75,7 @@ class ApplicationParser
 
         $this->appInfo = $this->playMarket->getAppInfo($this->appId);
 
+        $this->storeApplication($this->appInfo);
         dump($this->appInfo);
     }
 
@@ -79,7 +83,7 @@ class ApplicationParser
      * @throws \Nelexa\GPlay\Exception\GooglePlayException
      * @throws \Exception
      */
-    private function getApplication(AppInfo $app): Application
+    private function storeApplication(AppInfo $app): void
     {
         $application = (new Application())
             ->setGoogleAppsId($app->getId())
@@ -92,13 +96,11 @@ class ApplicationParser
             ->setIconBinary($app->getIcon()->getBinaryImageContent())
             ->setIconPath('public/icon/'.$app->getIcon()->getHashUrl('sha1', 2, 2).'.png')
             ->setDeveloper($app->getDeveloper()->getId())
-            ->setCreatedAt( new \DateTime($app->getReleased()))
+            ->setCreatedAt( new \DateTime($app->getReleased()->format('Y-m-d H:i:s')))
             ->setUpdatedAt(new \DateTime($app->getUpdated()))
             ->setDeletedAt(null);
 
         $this->em->persist($application);
         $this->em->flush();
-
-        return $application;
     }
 }
